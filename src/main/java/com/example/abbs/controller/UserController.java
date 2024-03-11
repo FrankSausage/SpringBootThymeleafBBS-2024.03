@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 
 @Controller
@@ -27,6 +30,7 @@ public class UserController {
     @Autowired private UserService uSvc;
     @Autowired private ImageUtil iU;
     @Autowired private AsideUtil aU;
+    @Autowired private ResourceLoader resourceLoader;
     @Value("${spring.servlet.multipart.location}") private String uploadDir;
 
     @GetMapping("/register")
@@ -86,8 +90,17 @@ public class UserController {
                 session.setAttribute("github", u.getGithub());
                 session.setAttribute("insta", u.getInsta());
                 session.setAttribute("location", u.getLocation());
-
-                String quoteFile = uploadDir + "data/todayQuote.txt";
+                // 상태 메세지
+                // c:/Temp/abbs/data/todayQuote.txt
+//                String quoteFile = uploadDir + "data/todayQuote.txt";
+                // resources/static/data/todayQuote.txt
+                Resource resource = resourceLoader.getResource("classpath:/static/data/todayQuote.txt");
+                String quoteFile = null;
+                try{
+                    quoteFile = resource.getURI().getPath();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
                 String stateMsg = aU.getTodayQuote(quoteFile);
                 session.setAttribute("stateMsg", stateMsg);
 
