@@ -1,5 +1,6 @@
 package com.example.abbs.service;
 
+import com.example.abbs.dao.UserDao;
 import com.example.abbs.entity.User;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;

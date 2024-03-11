@@ -1,4 +1,4 @@
-package com.example.abbs.service;
+package com.example.abbs.dao;
 
 import com.example.abbs.entity.User;
 import org.apache.ibatis.annotations.Insert;
