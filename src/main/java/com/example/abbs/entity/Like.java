@@ -1,15 +1,21 @@
 package com.example.abbs.entity;
 
-public class Likes {
+public class Like {
     private int lid;
     private String uid;
     private int bid;
     private int value;
 
-    public Likes() {
+    public Like() {
     }
 
-    public Likes(int lid, String uid, int bid, int value) {
+    public Like(String uid, int bid, int value) {
+        this.uid = uid;
+        this.bid = bid;
+        this.value = value;
+    }
+
+    public Like(int lid, String uid, int bid, int value) {
         this.lid = lid;
         this.uid = uid;
         this.bid = bid;

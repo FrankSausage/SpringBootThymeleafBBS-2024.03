@@ -55,12 +55,12 @@
 
 				<table class="table">
 					<tr>
-						<th style="width: 8%">아이디</th>
-						<th style="width: 52%">제목</th>
+						<th style="width: 8%">글번호</th>
+						<th style="width: 44%">제목</th>
 						<th style="width: 14%">글쓴이</th>
 						<th style="width: 16%">등록일</th>
 						<th style="width: 10%">조회수</th>
-						<th style="width: 10%">좋아요수</th>
+						<th style="width: 18%">좋아요</th>
 					</tr>
 						<tr th:each="board: ${bList}">
 							<td>[[${board.bid}]]</td>
@@ -71,7 +71,7 @@
 								</span>
 							</td>
 							<td>[[${board.uname}]]</td>
-							<td>[[${#temporals.format(board.modTime, 'yy-MM-dd HH:mm')}]]</td>
+							<td>[[${#temporals.format(board.modTime, 'yy-MM-dd HH:mm:ss')}]]</td>
 							<td>[[${board.viewCount}]]</td>
 							<td>[[${board.likeCount}]]</td>
 						</tr>

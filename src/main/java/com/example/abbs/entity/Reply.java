@@ -1,32 +1,35 @@
 package com.example.abbs.entity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class Reply {
     private int rid;
     private String comment;
-    private LocalDate regTime;
+    private LocalDateTime regTime;
     private String uid;
     private int bid;
     private int isMine;
+    private String uname;
 
     public Reply() {
     }
 
-    public Reply(int rid, String comment, String uid, int bid) {
-        this.rid = rid;
+    public Reply(String comment, String uid, int bid, int isMine) {
         this.comment = comment;
         this.uid = uid;
         this.bid = bid;
+        this.isMine = isMine;
     }
 
-    public Reply(int rid, String comment, LocalDate regTime, String uid, int bid, int isMine) {
+    public Reply(int rid, String comment, LocalDateTime regTime, String uid, int bid, int isMine, String uname) {
         this.rid = rid;
         this.comment = comment;
         this.regTime = regTime;
         this.uid = uid;
         this.bid = bid;
         this.isMine = isMine;
+        this.uname = uname;
     }
 
     @Override
@@ -38,8 +41,10 @@ public class Reply {
                 ", uid='" + uid + '\'' +
                 ", bid=" + bid +
                 ", isMine=" + isMine +
+                ", uname='" + uname + '\'' +
                 '}';
     }
+
 
     public int getRid() {
         return rid;
@@ -57,11 +62,11 @@ public class Reply {
         this.comment = comment;
     }
 
-    public LocalDate getRegTime() {
+    public LocalDateTime getRegTime() {
         return regTime;
     }
 
-    public void setRegTime(LocalDate regTime) {
+    public void setRegTime(LocalDateTime regTime) {
         this.regTime = regTime;
     }
 
@@ -87,5 +92,13 @@ public class Reply {
 
     public void setIsMine(int isMine) {
         this.isMine = isMine;
+    }
+
+    public String getUname() {
+        return uname;
+    }
+
+    public void setUname(String uname) {
+        this.uname = uname;
     }
 }
