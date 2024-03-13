@@ -12,7 +12,7 @@ public interface LikeService {
 
     void insertLike(Like like);
 
-    void toggleLike(Like like);         // value가 0이면 1로 , 1이면 0으로 변경
+    int toggleLike(Like like);         // value가 0이면 1로 , 1이면 0으로 변경, value를 반환
 
     int getLikeCount(int bid);
 }

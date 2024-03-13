@@ -20,7 +20,8 @@ public interface LikeDao {
     @Insert("insert into likes values(default, #{uid}, #{bid}, #{value})")
     void insertLike(Like like);
 
-    @Update("update likes set value=if(value=0, 1, 0) where lid=#{lid}")
+    //("update likes set value=if(value=0, 1, 0) where lid=#{lid}")
+    @Update("update likes set value=#{value} where lid=#{lid}")
     void toggleLike(Like like);
 
 }

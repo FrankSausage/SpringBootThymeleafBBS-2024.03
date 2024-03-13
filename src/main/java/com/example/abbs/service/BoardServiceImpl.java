@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class BoardServiceImpl implements BoardService{
-    @Autowired BoardDao bDao;
+public class BoardServiceImpl implements BoardService {
+    @Autowired
+    BoardDao bDao;
 
     @Override
     public Board getBoard(int bid) {
@@ -55,7 +56,7 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public void increaseLikeCount(int bid) {
-        bDao.increaseCount("likeCount", bid);
+    public void updateLikeCount(int bid, int count) {
+        bDao.updateLikeCount(bid, count);
     }
 }

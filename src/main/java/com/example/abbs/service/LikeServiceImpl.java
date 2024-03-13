@@ -26,8 +26,12 @@ public class LikeServiceImpl implements LikeService{
     }
 
     @Override
-    public void toggleLike(Like like) {
+    public int toggleLike(Like like) {
+        like = lDao.getLike(like.getUid(), like.getBid());
+        int value = like.getValue() == 0 ? 1 : 0;
+        like.setValue(value);
         lDao.toggleLike(like);
+        return value;
     }
 
     @Override

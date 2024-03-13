@@ -109,6 +109,14 @@ public class BoardController {
             model.addAttribute("fileList", fileList);
         }
         model.addAttribute("board", board);
+
+        //좋아요 처리
+        Like like = lSvc.getLike(sessUid, bid);
+        if (like == null){
+            session.setAttribute("likeClicked", 0);
+        } else {
+            session.setAttribute("likeClicked", like.getValue());
+        }
         model.addAttribute("count", board.getLikeCount());
 
         List<Reply> replyList = rSvc.getReplyList(bid);
@@ -140,11 +148,13 @@ public class BoardController {
         Like like = lSvc.getLike(sessUid, bid);
         if (like == null){
             lSvc.insertLike(new Like(sessUid, bid, 1));
+            session.setAttribute("likeClicked", 1);
         } else {
-            lSvc.toggleLike(like);
+            int value = lSvc.toggleLike(like);
+            session.setAttribute("likeClicked", value);
         }
         int count = lSvc.getLikeCount(bid);
-//        bSvc. board.likeCount update
+        bSvc.updateLikeCount(bid, count);
         model.addAttribute("count", count);
         return "board/detail::#likeCount";
     }
