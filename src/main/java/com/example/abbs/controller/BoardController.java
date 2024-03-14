@@ -35,6 +35,8 @@ public class BoardController {
     @Autowired
     private JsonUtil jU;
 
+    private final String menu = "board";
+
     @GetMapping("/list")
     public String listForm(@RequestParam(name = "p", defaultValue = "1") int page,
                            @RequestParam(name = "f", defaultValue = "title") String field,
@@ -58,6 +60,7 @@ public class BoardController {
         model.addAttribute("startPage", startPage);
         model.addAttribute("endPage", endPage);
         model.addAttribute("pList", pList);
+        model.addAttribute("menu", menu);
         return "board/list";
     }
 
@@ -121,6 +124,7 @@ public class BoardController {
 
         List<Reply> replyList = rSvc.getReplyList(bid);
         model.addAttribute("replyList", replyList);
+        model.addAttribute("menu", menu);
         return "board/detail";
     }
 

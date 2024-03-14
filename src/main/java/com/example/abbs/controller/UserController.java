@@ -33,6 +33,8 @@ public class UserController {
     @Autowired private ResourceLoader resourceLoader;
     @Value("${spring.servlet.multipart.location}") private String uploadDir;
 
+    private final String menu = "user";
+
     @GetMapping("/register")
     public String registerFrom() {
         return "user/register";

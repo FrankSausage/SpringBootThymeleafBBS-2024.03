@@ -1,7 +1,9 @@
 package com.example.abbs.controller;
 
 import com.example.abbs.entity.SchDay;
+import com.example.abbs.service.ScheduleService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +18,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/schedule")
 public class ScheduleController {
+    @Autowired private ScheduleService sSvc;
+    private final String menu = "schedule";
 
     @GetMapping({"/calendar/{arrow}", "/calendar"})
     public String calendar(@PathVariable(required = false) String arrow, HttpSession session, Model model) {
@@ -24,6 +28,7 @@ public class ScheduleController {
         int month = today.getMonthValue();
         String date = "일 월 화 수 목 금 토".split(" ")[today.getDayOfWeek().getValue() % 7];
         String sessionMonthYear = (String) session.getAttribute("scheduleMonthYear");   // "2024.03"
+
         if (sessionMonthYear != null) {
             year = Integer.parseInt(sessionMonthYear.substring(0, 4));
             month = Integer.parseInt(sessionMonthYear.substring(5));
@@ -73,20 +78,14 @@ public class ScheduleController {
             int prevYear = prevSunday.getYear();
             for (int i = 0; i < startDate; i++) {
                 sdate = String.format("%d%02d%02d", prevYear, prevMonth, prevDay + i);
-                SchDay sd = new SchDay();
-                sd.setDay(prevDay + i);
-                sd.setDate(i);
-                sd.setSdate(sdate);
+                SchDay sd = sSvc.generateSchDay(sessUid, prevDay+i, sdate, i, 1);
                 week.add(sd);
             }
         }
 
         for (int i = startDate, k = 1; i < 7; i++, k++) {   // 이번 달
             sdate = String.format("%d%02d%02d", year, month , k);
-            SchDay sd = new SchDay();
-            sd.setDay(k);
-            sd.setDate(i);
-            sd.setSdate(sdate);
+            SchDay sd = sSvc.generateSchDay(sessUid, k, sdate, i, 0);
             week.add(sd);
         }
         calendar.add(week);
@@ -98,10 +97,7 @@ public class ScheduleController {
                 week = new ArrayList<>();
             }
             sdate = String.format("%d%02d%02d", year, month, k);
-            SchDay sd = new SchDay();
-            sd.setDay(k);
-            sd.setDate(i % 7);
-            sd.setSdate(sdate);
+            SchDay sd = sSvc.generateSchDay(sessUid, k, sdate, i, 1);
             week.add(sd);
             if (i % 7 == 6) {
                 calendar.add(week);
@@ -115,10 +111,7 @@ public class ScheduleController {
             int nextYear = nextDay.getYear();
             for (int i = lastDate + 1, k = 1; i <7; i++, k++) {
                 sdate = String.format("%d%02d%02d", nextYear, nextMonth, k);
-                SchDay sd = new SchDay();
-                sd.setDay(k);
-                sd.setDate(i);
-                sd.setSdate(sdate);
+                SchDay sd = sSvc.generateSchDay(sessUid, k, sdate, i, 1);
                 week.add(sd);
             }
             calendar.add(week);
@@ -131,6 +124,8 @@ public class ScheduleController {
         model.addAttribute("calendar", calendar);
         model.addAttribute("week", week);
         model.addAttribute("height", 600 / calendar.size());
+        model.addAttribute("todaySdate", String.format("%d%02d%02d"));
+        model.addAttribute("menu", menu);
 
         return "schedule/calendar";
     }
